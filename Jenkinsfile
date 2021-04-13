@@ -21,7 +21,7 @@ pipeline {
       }
       stage('Start test app') {
          steps {
-            pwsh(script: """
+           powershell("""
                docker-compose up -d
                ./scripts/test_container.ps1
             """)
@@ -37,14 +37,14 @@ pipeline {
       }
       stage('Run Tests') {
          steps {
-            pwsh(script: """
+            powershell("""
                pytest ./tests/test_sample.py
             """)
          }
       }
       stage('Stop test app') {
          steps {
-            pwsh(script: """
+           powershell("""
                docker-compose down
             """)
          }
