@@ -7,10 +7,10 @@ pipeline {
             echo "$GIT_BRANCH"
          }
       }
-       stage('Docker Build') {
+        stage('Docker Build') {
          steps {
-            powershell( 'docker images -a')
-            powershell( """
+            pwsh(script: 'docker images -a')
+            pwsh(script: """
                cd azure-vote/
                docker images -a
                docker build -t jenkins-pipeline .
@@ -21,7 +21,7 @@ pipeline {
       }
       stage('Start test app') {
          steps {
-           powershell("""
+            pwsh(script: """
                docker-compose up -d
                ./scripts/test_container.ps1
             """)
@@ -37,14 +37,14 @@ pipeline {
       }
       stage('Run Tests') {
          steps {
-            powershell("""
+            pwsh(script: """
                pytest ./tests/test_sample.py
             """)
          }
       }
       stage('Stop test app') {
          steps {
-           powershell("""
+            pwsh(script: """
                docker-compose down
             """)
          }
